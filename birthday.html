@@ -3,15 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Happy Birthday!</title>
+    <title>Classified // Happy Birthday</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Kalam:wght@400;700&family=Poppins:wght@400;600;800&family=Space+Mono:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Fredoka+One&family=Oswald:wght@500;700;900&family=Poppins:wght@400;600;800;900&family=Space+Mono:wght@400;700&display=swap');
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-            background-color: #f8f9fa;
-            color: #333;
+            /* Starts with dark theme */
+            background-color: #0a0a0a; 
+            color: #fff;
             font-family: 'Poppins', sans-serif;
             overflow-x: hidden;
             min-height: 100vh;
@@ -19,25 +20,21 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            transition: background 1s ease;
+            transition: background 0.8s ease, color 0.8s ease;
         }
 
         /* --- THE PLAYFUL BACKGROUND (Activates after name) --- */
-        .playful-mode {
-            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 20%, #a1c4fd 60%, #c2e9fb 100%);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-        }
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        body.playful-mode {
+            background: #e0f2fe; /* Soft playful blue */
+            background-image: radial-gradient(#bae6fd 2px, transparent 2px);
+            background-size: 30px 30px;
+            color: #111;
         }
 
         .stage {
             width: 100%;
             max-width: 900px;
-            padding: 20px;
+            padding: 15px;
             display: none;
             flex-direction: column;
             align-items: center;
@@ -47,90 +44,99 @@
         }
         .stage.active { display: flex; opacity: 1; }
 
-        /* --- STAGE 1: ENTRY SCREEN (Clean & Simple) --- */
-        .entry-box { text-align: center; background: #fff; padding: 50px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 500px;}
-        .entry-title { font-family: 'Fredoka One', cursive; font-size: 2.5rem; color: #333; margin-bottom: 10px; }
-        .entry-box input { width: 100%; border: 2px solid #ddd; padding: 15px; border-radius: 10px; font-size: 18px; font-family: 'Poppins', sans-serif; margin: 20px 0; outline: none; text-align: center; transition: 0.3s;}
-        .entry-box input:focus { border-color: #ff6b81; }
-        .btn-primary { background: #333; color: #fff; border: none; padding: 15px 30px; font-size: 18px; font-family: 'Poppins', sans-serif; font-weight: 600; border-radius: 10px; cursor: pointer; transition: 0.3s; width: 100%; box-shadow: 0 5px 15px rgba(0,0,0,0.1);}
-        .btn-primary:hover { background: #ff6b81; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(255,107,129,0.3);}
+        /* --- STAGE 1: EXACT MATCH TO DARK SCREENSHOT --- */
+        .ts-container { width: 100%; max-width: 650px; text-align: left; padding: 20px; font-family: 'Courier Prime', monospace;}
+        .ts-header { font-size: clamp(10px, 2.5vw, 14px); color: #555; letter-spacing: 2px; margin-bottom: 30px;}
+        .ts-title { font-family: 'Oswald', sans-serif; font-size: clamp(3rem, 10vw, 6rem); line-height: 0.9; text-transform: uppercase; margin-bottom: 20px;}
+        .ts-title span { color: #555; }
+        .ts-desc { font-size: clamp(12px, 3vw, 14px); color: #777; border-left: 2px solid #333; padding-left: 15px; margin-bottom: 40px; max-width: 500px;}
+        .ts-input-area { margin-top: 20px; }
+        .ts-input-label { font-size: clamp(12px, 3vw, 14px); color: #aaa; margin-bottom: 10px; display: block;}
+        .ts-input-row { display: flex; align-items: flex-end; border-bottom: 1px solid #333; padding-bottom: 5px; position: relative;}
+        .ts-input-row input { background: transparent; border: none; color: #fff; font-family: 'Courier Prime', monospace; font-size: clamp(16px, 4vw, 20px); outline: none; flex-grow: 1;}
+        .ts-input-row input::placeholder { color: #444; }
+        .ts-enter-btn { background: transparent; border: none; color: #fff; font-family: 'Courier Prime', monospace; font-size: 14px; cursor: pointer; transition: 0.2s;}
+        .ts-enter-btn:hover { color: #00f3ff; }
+        .ts-stamp { position: absolute; right: 0; bottom: -40px; color: #4a1515; border: 2px solid #4a1515; padding: 5px 10px; font-size: 12px; font-weight: bold; transform: rotate(-5deg); opacity: 0.6;}
+
+        /* --- PLAYFUL BUTTONS --- */
+        .btn-playful { background: #111; color: #fff; border: none; padding: 15px 30px; font-size: clamp(14px, 4vw, 18px); font-family: 'Poppins', sans-serif; font-weight: 800; border-radius: 12px; cursor: pointer; transition: 0.2s; box-shadow: 4px 4px 0px #3498db; text-transform: uppercase;}
+        .btn-playful:active { transform: translate(4px, 4px); box-shadow: 0px 0px 0px #3498db;}
 
         /* --- STAGE 2: DIALOGUE --- */
-        .dialogue-text { font-family: 'Fredoka One', cursive; font-size: 3rem; color: #fff; text-shadow: 2px 2px 0px #333, 4px 4px 0px rgba(0,0,0,0.1); text-align: center; line-height: 1.3;}
-        .dialogue-btn { margin-top: 40px; background: #fff; color: #333; box-shadow: 4px 4px 0px #333; border: 2px solid #333;}
-        .dialogue-btn:hover { background: #f1c40f; box-shadow: 6px 6px 0px #333; transform: translate(-2px, -2px); color: #333;}
+        .dialogue-text { font-family: 'Fredoka One', cursive; font-size: clamp(2rem, 6vw, 3rem); color: #111; text-align: center; line-height: 1.3; background: #fff; padding: 30px 20px; border-radius: 20px; border: 4px solid #111; box-shadow: 8px 8px 0px #111; width: 100%; max-width: 600px;}
 
-        /* --- STAGE 3: THE QUIZ UI (Perfectly matched to your screenshot) --- */
-        .quiz-container { background: #fff; border: 3px solid #111; padding: 50px 40px; width: 100%; max-width: 750px; position: relative; box-shadow: 10px 10px 0px rgba(0,0,0,0.05);}
-        .quiz-header { display: flex; justify-content: space-between; font-family: 'Space Mono', monospace; font-size: 12px; color: #777; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 30px;}
-        .quiz-question-text { font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 4.5rem; line-height: 1; color: #111; margin-bottom: 10px;}
-        .quiz-hint { font-family: 'Kalam', cursive; font-size: 1.5rem; color: #555; margin-bottom: 40px;}
-        .quiz-input-box { width: 100%; border: none; border-bottom: 3px solid #111; padding: 10px 0; font-size: 24px; font-family: 'Poppins', sans-serif; color: #111; outline: none; background: transparent; transition: 0.3s;}
-        .quiz-input-box:focus { border-bottom-color: #3498db; }
-        .quiz-input-box::placeholder { color: #aaa; font-weight: 400; }
-        .quiz-submit-btn { display: block; margin-left: auto; margin-top: 30px; background: #111; color: #fff; border: none; padding: 15px 30px; font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 18px; text-transform: uppercase; cursor: pointer; box-shadow: 6px 6px 0px #3498db; transition: 0.2s;}
-        .quiz-submit-btn:hover { transform: translate(-2px, -2px); box-shadow: 8px 8px 0px #3498db;}
-        .quiz-submit-btn:active { transform: translate(4px, 4px); box-shadow: 0px 0px 0px #3498db;}
+        /* --- STAGE 3: THE QUIZ UI (EXACT MATCH TO BRUTALIST SCREENSHOT) --- */
+        .quiz-card { background: #fff; border: 4px solid #111; padding: clamp(20px, 5vw, 40px); width: 100%; max-width: 700px; box-shadow: 10px 10px 0px #111; text-align: left; position: relative;}
+        .quiz-top-bar { display: flex; justify-content: space-between; font-family: 'Space Mono', monospace; font-size: clamp(9px, 2.5vw, 12px); color: #666; text-transform: uppercase; margin-bottom: 20px;}
+        .quiz-q-text { font-family: 'Poppins', sans-serif; font-weight: 900; font-size: clamp(2.5rem, 8vw, 4.5rem); line-height: 1; color: #111; margin-bottom: 5px;}
+        .quiz-hint { font-family: 'Kalam', cursive; font-size: clamp(1rem, 3.5vw, 1.5rem); color: #555; margin-bottom: 40px;}
+        .quiz-input { width: 100%; border: none; border-bottom: 3px solid #111; padding: 10px 0; font-size: clamp(16px, 4vw, 24px); font-family: 'Poppins', sans-serif; font-weight: 600; color: #111; outline: none; background: transparent; transition: 0.3s;}
+        .quiz-input:focus { border-bottom-color: #3498db; }
+        .quiz-input::placeholder { color: #999; font-weight: 400; }
+        .quiz-submit { display: block; margin-left: auto; margin-top: 30px; background: #111; color: #fff; border: none; padding: 12px 25px; font-family: 'Poppins', sans-serif; font-weight: 900; font-size: clamp(12px, 3.5vw, 16px); text-transform: uppercase; cursor: pointer; box-shadow: 4px 4px 0px #3498db; transition: 0.2s;}
+        .quiz-submit:active { transform: translate(4px, 4px); box-shadow: 0px 0px 0px #3498db;}
 
         /* --- EVALUATION SCREEN --- */
-        .eval-card { background: #fff; border: 3px solid #111; padding: 40px; width: 100%; max-width: 800px; box-shadow: 8px 8px 0px rgba(0,0,0,0.1);}
-        .eval-title { font-family: 'Fredoka One', cursive; font-size: 2.5rem; text-align: center; margin-bottom: 30px; border-bottom: 3px dashed #ddd; padding-bottom: 20px;}
-        .eval-row { border-bottom: 2px solid #eee; padding: 15px 0; display: flex; flex-direction: column;}
-        .eval-q { font-weight: 800; font-size: 1.2rem; color: #111; }
-        .eval-ans { font-size: 1rem; color: #555; margin-top: 5px; }
-        .eval-match { color: #2ecc71; font-weight: bold; }
-        .eval-miss { color: #e74c3c; font-weight: bold; }
-        .eval-final-msg { font-family: 'Fredoka One', cursive; font-size: 1.8rem; text-align: center; margin-top: 30px; line-height: 1.4;}
+        .eval-card { background: #fff; border: 4px solid #111; border-radius: 15px; padding: 20px; width: 100%; max-width: 600px; box-shadow: 8px 8px 0px #111;}
+        .eval-title { font-family: 'Fredoka One', cursive; font-size: clamp(1.5rem, 5vw, 2rem); text-align: center; margin-bottom: 15px; border-bottom: 3px dashed #ccc; padding-bottom: 15px;}
+        .eval-row { border-bottom: 1px solid #eee; padding: 12px 0;}
+        .eval-q { font-weight: 800; font-size: clamp(14px, 3.5vw, 16px); color: #111; display: flex; justify-content: space-between;}
+        .eval-ans { font-size: clamp(12px, 3vw, 14px); color: #555; margin-top: 5px; font-family: 'Space Mono', monospace;}
+        .eval-match { color: #2ecc71; font-weight: bold;}
+        .eval-miss { color: #e74c3c; font-weight: bold;}
+        .eval-final-msg { font-family: 'Kalam', cursive; font-size: clamp(1.2rem, 4vw, 1.5rem); font-weight: bold; text-align: center; margin-top: 20px; line-height: 1.4;}
 
         /* --- HARDCORE CATCH ME GAME --- */
-        #game-1-container { width: 100%; height: 500px; background: #fff; border: 3px solid #111; border-radius: 20px; position: relative; overflow: hidden; box-shadow: 8px 8px 0px rgba(0,0,0,0.1);}
-        #catch-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 15px 30px; background: #ff6b81; color: #fff; font-family: 'Fredoka One', cursive; font-size: 1.5rem; border: 3px solid #111; border-radius: 50px; cursor: pointer; box-shadow: 4px 4px 0px #111; transition: transform 0.1s; user-select: none; z-index: 20;}
-        .taunt-text { position: absolute; top: 30px; width: 100%; text-align: center; font-family: 'Kalam', cursive; font-size: 2rem; color: #555; pointer-events: none;}
+        #game-1-container { width: 100%; height: 60vh; max-height: 500px; background: #fff; border: 4px solid #111; border-radius: 20px; position: relative; overflow: hidden; box-shadow: 8px 8px 0px #111; max-width: 600px;}
+        #catch-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 15px 30px; background: #ff6b81; color: #fff; font-family: 'Fredoka One', cursive; font-size: clamp(16px, 4vw, 20px); border: 3px solid #111; border-radius: 50px; cursor: pointer; transition: 0.05s; user-select: none; z-index: 20; white-space: nowrap;}
+        .taunt-text { position: absolute; top: 20px; width: 100%; text-align: center; font-family: 'Kalam', cursive; font-size: clamp(1.2rem, 4vw, 1.5rem); color: #333; font-weight: bold; pointer-events: none;}
 
         /* --- MEMORY GAME --- */
-        .memory-header { text-align: center; margin-bottom: 20px; }
-        .memory-title { font-family: 'Fredoka One', cursive; font-size: 3rem; color: #fff; text-shadow: 2px 2px 0px #111;}
-        .memory-subtitle { font-family: 'Kalam', cursive; font-size: 1.5rem; color: #333; font-weight: bold;}
-        .memory-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; width: 100%; max-width: 800px; }
-        @media (max-width: 600px) { .memory-grid { grid-template-columns: repeat(4, 1fr); } }
+        .memory-header { text-align: center; margin-bottom: 15px; }
+        .memory-title { font-family: 'Fredoka One', cursive; font-size: clamp(1.8rem, 6vw, 2.5rem); color: #111; text-shadow: 2px 2px 0px #fff;}
+        .memory-subtitle { font-family: 'Kalam', cursive; font-size: clamp(1rem, 3.5vw, 1.2rem); color: #555; font-weight: bold;}
+        .memory-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; width: 100%; max-width: 500px; }
         .card { width: 100%; aspect-ratio: 3/4; perspective: 1000px; cursor: pointer; }
         .card-inner { width: 100%; height: 100%; transition: transform 0.5s; transform-style: preserve-3d; position: relative; }
         .card.flipped .card-inner { transform: rotateY(180deg); }
-        .card-front, .card-back { width: 100%; height: 100%; position: absolute; backface-visibility: hidden; border-radius: 10px; display: flex; align-items: center; justify-content: center; border: 3px solid #111;}
-        .card-front { background: #ffeb3b; font-family: 'Fredoka One', cursive; font-size: 3rem; color: #111; box-shadow: 4px 4px 0px rgba(0,0,0,0.1);}
-        .card-back { background: #fff; transform: rotateY(180deg); overflow: hidden;}
+        .card-front, .card-back { width: 100%; height: 100%; position: absolute; backface-visibility: hidden; border-radius: 8px; border: 2px solid #111; overflow: hidden;}
+        .card-front { background: #ffeb3b; display: flex; align-items: center; justify-content: center; font-family: 'Fredoka One', cursive; font-size: 2rem; color: #111;}
+        .card-back { background: #fff; transform: rotateY(180deg); }
         .card-back img { width: 100%; height: 100%; object-fit: cover; }
-        .img-fallback { background: #ff6b81; color: #fff; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-family: 'Poppins', sans-serif; font-weight: bold;}
+        .img-fallback { background: #ff6b81; color: #fff; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-family: 'Space Mono', monospace; font-size: 10px; font-weight: bold; text-align: center; word-break: break-all; padding: 5px;}
 
         /* --- FINAL QUESTION --- */
-        .final-q-container { background: #fff; border: 3px solid #111; padding: 40px; border-radius: 20px; width: 100%; max-width: 600px; box-shadow: 8px 8px 0px rgba(0,0,0,0.1); text-align: center;}
-        .final-q-container textarea { width: 100%; height: 150px; border: 2px dashed #777; padding: 20px; font-family: 'Kalam', cursive; font-size: 1.5rem; border-radius: 10px; resize: none; margin-top: 20px; outline:none; transition:0.3s;}
-        .final-q-container textarea:focus { border-color: #ff6b81; }
+        .final-q-container { background: #fff; border: 4px solid #111; padding: 25px; border-radius: 20px; width: 100%; max-width: 500px; box-shadow: 8px 8px 0px #111; text-align: center;}
+        .final-q-container textarea { width: 100%; height: 120px; border: 2px dashed #999; padding: 15px; font-family: 'Kalam', cursive; font-size: clamp(14px, 4vw, 18px); border-radius: 10px; resize: none; margin-top: 15px; outline:none;}
+        .final-q-container textarea:focus { border-color: #3498db; }
 
         /* --- FIREWORKS & POEM --- */
         #canvas-fireworks { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 1; display: none; }
-        .poem-box { position: relative; z-index: 10; text-align: center; background: rgba(255,255,255,0.9); border: 3px solid #111; border-radius: 20px; padding: 40px; max-width: 700px; box-shadow: 10px 10px 0px rgba(0,0,0,0.1); display: none;}
-        .poem-box h1 { font-family: 'Fredoka One', cursive; font-size: 4rem; color: #ff6b81; margin-bottom: 20px; text-shadow: 2px 2px 0px #111;}
-        .poem-text { font-family: 'Kalam', cursive; font-size: 1.8rem; line-height: 1.8; color: #333; font-weight: bold;}
+        .poem-box { position: relative; z-index: 10; text-align: center; background: #fff; border: 4px solid #111; border-radius: 20px; padding: clamp(20px, 5vw, 40px); max-width: 600px; box-shadow: 8px 8px 0px #111; display: none;}
+        .poem-box h1 { font-family: 'Fredoka One', cursive; font-size: clamp(2rem, 8vw, 3.5rem); color: #ff6b81; margin-bottom: 20px;}
+        .poem-text { font-family: 'Kalam', cursive; font-size: clamp(1.2rem, 4.5vw, 1.6rem); line-height: 1.6; color: #111; font-weight: bold;}
 
         /* --- CAKE BUTTON --- */
-        .cake-emoji { font-size: 10rem; cursor: pointer; transition: 0.3s; display: inline-block; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.2)); animation: bounce 2s infinite;}
-        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+        #cake-cut-box { text-align: center; z-index: 10; background: #fff; border: 4px solid #111; border-radius: 20px; padding: 30px 15px; box-shadow: 8px 8px 0px #111; max-width: 350px; width: 100%;}
+        .cake-emoji { font-size: clamp(5rem, 20vw, 8rem); cursor: pointer; transition: 0.3s; display: inline-block; filter: drop-shadow(0 10px 0px rgba(0,0,0,0.2)); animation: bounce 1.5s infinite;}
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
 
         /* --- ENVELOPE --- */
-        .envelope-wrapper { position: relative; width: 300px; height: 200px; margin: 40px auto; cursor: pointer; perspective: 1000px; }
-        .env-body { position: absolute; width: 100%; height: 100%; background: #fdfbfb; border-radius: 10px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center; font-family: 'Space Mono', monospace; font-size: 24px; color: #111; font-weight: bold; border: 3px solid #111; z-index: 2;}
-        .env-flap { position: absolute; top: 0; left: 0; width: 100%; height: 60%; background: #eee; clip-path: polygon(0 0, 50% 100%, 100% 0); transform-origin: top; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); z-index: 3; border-top: 3px solid #111;}
+        .envelope-wrapper { position: relative; width: clamp(220px, 60vw, 280px); height: clamp(140px, 40vw, 180px); margin: 30px auto; cursor: pointer; perspective: 1000px; }
+        .env-body { position: absolute; width: 100%; height: 100%; background: #fff; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-family: 'Space Mono', monospace; font-size: clamp(16px, 5vw, 24px); color: #111; font-weight: bold; border: 4px solid #111; z-index: 2; box-shadow: 6px 6px 0px #111;}
+        .env-flap { position: absolute; top: 0; left: 0; width: 100%; height: 60%; background: #f0f0f0; clip-path: polygon(0 0, 50% 100%, 100% 0); transform-origin: top; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); z-index: 3; border-top: 4px solid #111;}
         .envelope-wrapper.open .env-flap { transform: rotateX(180deg); z-index: 1; }
         
-        .pass-box { display: none; flex-direction: column; align-items: center; margin-top: 30px; }
-        .pass-box input { border: 3px solid #111; background: #fff; padding: 15px; border-radius: 10px; text-align: center; font-size: 24px; font-family: 'Poppins', sans-serif; font-weight: bold; margin-bottom: 20px; width: 250px; outline: none;}
+        .pass-box { display: none; flex-direction: column; align-items: center; margin-top: 20px; width: 100%; max-width: 300px;}
+        .pass-box input { border: 4px solid #111; background: #fff; padding: 15px; border-radius: 10px; text-align: center; font-size: 20px; font-family: 'Space Mono', monospace; font-weight: bold; margin-bottom: 20px; width: 100%; outline: none;}
 
         /* --- BALLOONS --- */
         #floating-gallery { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 50; overflow: hidden; display: none; }
-        .balloon-photo { position: absolute; bottom: -300px; width: 150px; display: flex; flex-direction: column; align-items: center; pointer-events: auto; cursor: pointer; transition: transform 0.3s; }
-        .balloon-photo img, .balloon-photo .img-fallback { width: 100%; height: 200px; object-fit: cover; border-radius: 20px; border: 5px solid #fff; box-shadow: 0 15px 30px rgba(0,0,0,0.2); }
-        .balloon-string { width: 3px; height: 150px; background: rgba(255,255,255,0.8); margin-top: -15px; z-index: -1; }
+        .balloon-photo { position: absolute; bottom: -250px; width: clamp(100px, 30vw, 140px); display: flex; flex-direction: column; align-items: center; pointer-events: auto; cursor: pointer; transition: transform 0.3s; }
+        .balloon-photo .img-container { width: 100%; aspect-ratio: 3/4; border-radius: 15px; border: 4px solid #fff; box-shadow: 0 10px 20px rgba(0,0,0,0.2); overflow: hidden; background: #fff;}
+        .balloon-photo img { width: 100%; height: 100%; object-fit: cover; }
+        .balloon-string { width: 2px; height: 80px; background: rgba(0,0,0,0.3); margin-top: -5px; z-index: -1; }
         .balloon-photo:hover { transform: scale(1.15); z-index: 51; }
         @keyframes floatBalloon {
             0% { transform: translateY(0) rotate(var(--rot-start)); }
@@ -138,22 +144,29 @@
         }
 
         /* Lightbox */
-        .lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.95); display: none; justify-content: center; align-items: center; z-index: 200; backdrop-filter: blur(10px);}
-        .lightbox img { max-width: 90%; max-height: 90%; border-radius: 15px; border: 5px solid #111; box-shadow: 15px 15px 0px rgba(0,0,0,0.1);}
-        .close-lightbox { position: absolute; top: 30px; right: 40px; color: #111; font-size: 60px; cursor: pointer; font-family: 'Fredoka One'; transition: 0.3s;}
-        .close-lightbox:hover { color: #ff6b81; transform: scale(1.1);}
+        .lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.95); display: none; justify-content: center; align-items: center; z-index: 200; padding: 20px;}
+        .lightbox img { max-width: 100%; max-height: 80vh; border-radius: 10px; border: 4px solid #111; box-shadow: 10px 10px 0px rgba(0,0,0,0.1); object-fit: contain;}
+        .close-lightbox { position: absolute; top: 20px; right: 20px; color: #111; font-size: 50px; cursor: pointer; font-family: 'Fredoka One'; line-height: 1;}
 
     </style>
 </head>
 <body>
 
-    <!-- STAGE 1: ENTRY -->
+    <!-- STAGE 1: EXACT MATCH TO DARK TERMINAL SCREENSHOT -->
     <div id="stage-1" class="stage active">
-        <div class="entry-box">
-            <h1 class="entry-title">Top Secret</h1>
-            <p style="color:#666; font-size:14px; margin-bottom: 20px;">Identity verification required.</p>
-            <input type="text" id="name-input" placeholder="What's your name?" autocomplete="off">
-            <button class="btn-primary" onclick="checkName()">ENTER</button>
+        <div class="ts-container">
+            <div class="ts-header">[ TOP SECRET // RESTRICTED ACCESS ]</div>
+            <div class="ts-title">THIS IS A<br><span>TOP SECRET<br>WEBSITE.</span></div>
+            <div class="ts-desc">Unauthorized humans are not permitted. Identification is required before classified birthday material can be accessed.</div>
+            
+            <div class="ts-input-area">
+                <span class="ts-input-label">WHAT'S YOUR NAME?</span>
+                <div class="ts-input-row">
+                    <input type="text" id="name-input" placeholder="type here..." autocomplete="off">
+                    <button class="ts-enter-btn" onclick="checkName()">ENTER ↵</button>
+                    <div class="ts-stamp">BOSS APPROVED</div>
+                </div>
+            </div>
             <p id="name-error" style="color:#e74c3c; font-weight: bold; margin-top: 15px; display: none;">ACCESS DENIED.</p>
         </div>
     </div>
@@ -161,49 +174,50 @@
     <!-- STAGE 2: DIALOGUE -->
     <div id="stage-2" class="stage">
         <div class="dialogue-text" id="dialogue-text"></div>
-        <button class="btn-primary dialogue-btn" id="dialogue-btn" onclick="advanceDialogue()">NEXT >></button>
+        <button class="btn-playful dialogue-btn" id="dialogue-btn" onclick="advanceDialogue()">NEXT >></button>
     </div>
 
-    <!-- STAGE 3: THE NEW QUIZ FORM -->
+    <!-- STAGE 3: THE QUIZ FORM (Exactly like your white screenshot) -->
     <div id="stage-3" class="stage">
-        <div class="quiz-container">
-            <div class="quiz-header">
-                <span>How much do I know about her? // <span id="quiz-progress">01 of 05</span></span>
+        <div class="quiz-card">
+            <div class="quiz-top-bar">
+                <span>HOW MUCH DO I KNOW ABOUT HER? // <span id="quiz-progress">01 OF 05</span></span>
                 <span>BOSS DATABASE</span>
             </div>
             
-            <h1 class="quiz-question-text" id="quiz-q-title">Fav food?</h1>
+            <h1 class="quiz-q-text" id="quiz-q-title">Fav food?</h1>
             <p class="quiz-hint" id="quiz-q-hint">No judgement. This is a serious investigation.</p>
             
-            <input type="text" class="quiz-input-box" id="quiz-input" placeholder="type your answer..." autocomplete="off">
-            
-            <button class="quiz-submit-btn" onclick="nextQuestion()">Submit Answer</button>
+            <input type="text" class="quiz-input" id="quiz-input" placeholder="type your answer..." autocomplete="off">
+            <button class="quiz-submit" onclick="nextQuestion()">SUBMIT ANSWER</button>
         </div>
     </div>
 
     <!-- EVALUATION RESULT -->
     <div id="stage-eval" class="stage">
         <div class="eval-card">
-            <h2 class="eval-title">Investigation Results</h2>
+            <h2 class="eval-title">Results</h2>
             <div id="eval-list"></div>
             <div class="eval-final-msg" id="eval-final-msg"></div>
-            <button class="btn-primary" style="margin-top: 30px; background: #3498db; box-shadow: 0 5px 15px rgba(52,152,219,0.3);" onclick="nextStage('stage-4');">PROCEED TO GAMES</button>
+            <button class="btn-playful" style="margin-top: 25px; width: 100%;" onclick="nextStage('stage-4');">GAMES >></button>
         </div>
     </div>
 
     <!-- STAGE 4: HARDCORE CATCH ME GAME -->
     <div id="stage-4" class="stage">
-        <h2 class="entry-title" style="color:#fff; text-shadow: 2px 2px 0 #111;">Protocol 1: Reflex Test</h2>
+        <div class="memory-header">
+            <h2 class="memory-title">Protocol 1: Reflex</h2>
+        </div>
         <div id="game-1-container">
-            <div class="taunt-text" id="taunt-msg">Just click the button. Easy.</div>
-            <button id="catch-btn">CATCH ME! 🎂</button>
+            <div class="taunt-text" id="taunt-msg">Click the button.</div>
+            <button id="catch-btn">CATCH ME! 🏃</button>
         </div>
     </div>
 
     <!-- GAME 2: MEMORY -->
     <div id="stage-5" class="stage">
         <div class="memory-header">
-            <h2 class="memory-title">Protocol 2: Memory Match</h2>
+            <h2 class="memory-title">Protocol 2: Match</h2>
             <p class="memory-subtitle">Apni yadon ko match karo.</p>
         </div>
         <div class="memory-grid" id="memory-board"></div>
@@ -212,10 +226,10 @@
     <!-- FINAL QUESTION -->
     <div id="stage-6" class="stage">
         <div class="final-q-container">
-            <h2 class="entry-title">Final Question</h2>
+            <h2 class="memory-title" style="margin-bottom: 10px;">Final Question</h2>
             <p class="memory-subtitle">2 things you love about yourself?</p>
             <textarea placeholder="Write here..."></textarea>
-            <button class="btn-primary dialogue-btn" style="width:auto; margin-top: 20px;" onclick="triggerCakeStage();">SUBMIT & UNLOCK</button>
+            <button class="btn-playful" style="width:100%; margin-top: 20px;" onclick="triggerCakeStage();">UNLOCK SURPRISE</button>
         </div>
     </div>
 
@@ -223,13 +237,13 @@
     <div id="stage-7" class="stage">
         <canvas id="canvas-fireworks"></canvas>
         
-        <div id="cake-cut-box" style="text-align: center; z-index: 10;">
-            <div style="font-family:'Fredoka One'; font-size: 2rem; color:#fff; text-shadow: 2px 2px 0 #111; margin-bottom: 20px;">MAKE A WISH & CUT THE CAKE!</div>
+        <div id="cake-cut-box">
+            <div style="font-family:'Fredoka One'; font-size: 1.5rem; color:#111; margin-bottom: 20px; line-height: 1.2;">MAKE A WISH & CUT THE CAKE!</div>
             <div class="cake-emoji" onclick="triggerFireworks()">🎂</div>
         </div>
 
         <div class="poem-box" id="poem-section">
-            <h1>HAPPY BIRTHDAY</h1>
+            <h1>HAPPY BIRTHDAY!</h1>
             <div class="poem-text">
                 I see you when I see a mountain, standing so strong,<br>
                 Your willpower like that, it keeps you going all along.<br><br>
@@ -238,22 +252,24 @@
                 You are the one who doesn't follow the trend,<br>
                 The world follows you, my dear friend.
             </div>
-            <button class="btn-primary dialogue-btn" style="margin-top: 30px;" onclick="nextStage('stage-8')">Boss ne kuch bheja hai...</button>
+            <button class="btn-playful" style="margin-top: 30px; width: 100%;" onclick="nextStage('stage-8')">Boss ne kuch bheja hai...</button>
         </div>
     </div>
 
     <!-- ENVELOPE & BALLOONS -->
     <div id="stage-8" class="stage">
-        <h2 class="entry-title" style="color:#fff; text-shadow: 2px 2px 0 #111;">Secured Delivery</h2>
+        <div class="memory-header" style="margin-bottom: 10px; width: 100%; max-width: 300px;">
+            <h2 class="memory-title" style="font-size: 1.5rem;">Secured Delivery</h2>
+        </div>
         <div class="envelope-wrapper" id="envelope-obj" onclick="triggerEnvelope()">
             <div class="env-body">CONFIDENTIAL</div>
             <div class="env-flap"></div>
         </div>
         <div class="pass-box" id="pass-box">
-            <input type="password" id="env-pass" placeholder="Enter Passcode">
-            <button class="btn-primary" style="width:250px;" onclick="verifyEnvelope()">UNLOCK</button>
-            <p id="env-msg" style="margin-top:20px; font-family:'Fredoka One'; font-size:1.5rem; text-align:center;"></p>
-            <span style="font-family:'Poppins'; font-weight:bold; color: #333; text-decoration: underline; cursor: pointer; margin-top: 15px;" onclick="alert('teri dob hi hogi na')">Hint</span>
+            <input type="password" id="env-pass" placeholder="Passcode">
+            <button class="btn-playful" style="width:100%;" onclick="verifyEnvelope()">OPEN</button>
+            <p id="env-msg" style="margin-top:15px; font-family:'Kalam'; font-size:1.2rem; font-weight: bold; text-align:center;"></p>
+            <span style="font-family:'Space Mono'; font-size: 14px; font-weight:bold; color: #555; text-decoration: underline; cursor: pointer; margin-top: 15px;" onclick="alert('teri dob hi hogi na')">Hint</span>
         </div>
     </div>
 
@@ -266,7 +282,6 @@
 
     <script>
         /* --- EXACT FILENAMES EXTRACTED FROM YOUR SCREENSHOT --- */
-        // Yeh list un files ke naam ki hai jo Windows copy-paste me banata hai.
         const exactPhotoNames = [
             '1', '1 (1)', '1 (2)', '1 (3)', '1 (4)', '1 (5)', '1 (6)', 
             '1 (7)', '1 (8)', '1 (9)', '1 (10)', '1 (11)', '1 (12)', 
@@ -274,12 +289,43 @@
             '1 (19)', '1 (20)', '1 (21)', '1 (22)'
         ];
 
-        /* --- BULLETPROOF IMAGE LOADER FOR EXACT FILENAMES --- */
-        function generateImageHTML(name) {
-            // It tries .jpg first, then .jpeg, then .png.
-            return `<img src="Photos/${name}.jpg" 
-                    onerror="this.onerror=null; this.src='Photos/${name}.jpeg'; this.onerror=function(){this.onerror=null; this.src='Photos/${name}.png'; this.onerror=function(){this.style.display='none'; this.nextElementSibling.style.display='flex';}};">
-                    <div class="img-fallback" style="display:none;">PHOTO: ${name}</div>`;
+        /* --- BULLETPROOF JS IMAGE LOADER (Fixes IMG ERROR completely) --- */
+        // It tries Photos/ then photos/, and tries .jpg, .jpeg, .png
+        function injectRobustImage(container, baseName) {
+            let extensions = ['.jpg', '.jpeg', '.png', '.JPG'];
+            let folders = ['Photos/', 'photos/'];
+            let pathsToTry = [];
+            
+            folders.forEach(f => {
+                extensions.forEach(e => {
+                    // Try exact string
+                    pathsToTry.push(f + baseName + e);
+                    // Try URI encoded string (for spaces)
+                    pathsToTry.push(f + encodeURIComponent(baseName) + e);
+                });
+            });
+
+            // Remove duplicates
+            pathsToTry = [...new Set(pathsToTry)];
+
+            let tryIndex = 0;
+            function loadNext() {
+                if(tryIndex >= pathsToTry.length) {
+                    container.innerHTML = `<div class="img-fallback">IMG ERROR<br>${baseName}</div>`;
+                    return;
+                }
+                let img = new Image();
+                img.onload = function() {
+                    container.innerHTML = '';
+                    container.appendChild(img);
+                };
+                img.onerror = function() {
+                    tryIndex++;
+                    loadNext();
+                };
+                img.src = pathsToTry[tryIndex];
+            }
+            loadNext();
         }
 
         /* --- NAVIGATION --- */
@@ -291,7 +337,7 @@
         function checkName() {
             const val = document.getElementById('name-input').value.toLowerCase().trim();
             if(val.includes('krishna')) {
-                // Instantly make background playful and colorful
+                // Instantly switch to playful mode
                 document.body.classList.add('playful-mode');
                 nextStage('stage-2');
                 startDialogue();
@@ -322,7 +368,7 @@
                 setTimeout(() => {
                     document.getElementById('dialogue-text').innerText = lines[lineIdx];
                     document.getElementById('dialogue-text').style.opacity = 1;
-                }, 300);
+                }, 200);
                 if(lineIdx === lines.length - 1) document.getElementById('dialogue-btn').innerText = "PROCEED";
             } else {
                 nextStage('stage-3');
@@ -355,13 +401,12 @@
             
             if(currentQ < 4) {
                 currentQ++;
-                // Add a small animation effect
-                const container = document.querySelector('.quiz-container');
-                container.style.transform = 'scale(0.95)';
+                const container = document.querySelector('.quiz-card');
+                container.style.opacity = 0;
                 setTimeout(() => {
                     loadQuizData();
-                    container.style.transform = 'scale(1)';
-                }, 150);
+                    container.style.opacity = 1;
+                }, 200);
             } else {
                 evaluateQuiz();
             }
@@ -378,16 +423,15 @@
             ];
 
             let score = checks.filter(Boolean).length;
-            
             nextStage('stage-eval');
 
             let listHTML = '';
             for(let i=0; i<5; i++) {
-                let statusText = checks[i] ? '<span class="eval-match">✓ MATCH</span>' : '<span class="eval-miss">✕ MISS</span>';
+                let statusText = checks[i] ? '<span class="eval-match">MATCH</span>' : '<span class="eval-miss">MISS</span>';
                 listHTML += `
                 <div class="eval-row">
-                    <div style="display:flex; justify-content:space-between;">
-                        <span class="eval-q">${quizData[i].q}</span>
+                    <div class="eval-q">
+                        <span>${quizData[i].q}</span>
                         ${statusText}
                     </div>
                     <div class="eval-ans"><b>Boss:</b> ${bossAnswers[i]} <br> <b>You:</b> ${userAnswers[i] || '<i>blank</i>'}</div>
@@ -406,13 +450,13 @@
             setupCatchGame();
         }
 
-        /* --- HARDCORE CATCH ME GAME (9 Dodges, Very Fast) --- */
+        /* --- HARDCORE CATCH ME GAME (9 Dodges, Fast & Mobile Safe) --- */
         let catchDodges = 0;
         const maxDodges = 9; 
         const taunts = [
-            "Are itna slow?", "Haha missed!", "Try again! 😂", 
+            "Too slow!", "Haha missed!", "Try again! 😂", 
             "Too slow for the boss!", "Almost got it... nope!", 
-            "Focus Krishna, focus!", "Ouch, your finger slipped?", 
+            "Focus Krishna!", "Ouch, your finger slipped?", 
             "Okay one last time...", "Just kidding, one more! 😜"
         ];
 
@@ -425,10 +469,13 @@
                 e.preventDefault(); 
                 
                 let rect = container.getBoundingClientRect();
-                let maxX = rect.width - btn.offsetWidth - 20;
-                let maxY = rect.height - btn.offsetHeight - 20;
-                let newX = Math.random() * maxX + 10;
-                let newY = Math.random() * maxY + 10;
+                // Ensure it stays well within the border
+                let maxX = rect.width - btn.offsetWidth - 40;
+                let maxY = rect.height - btn.offsetHeight - 40;
+                
+                // Minimum bounds so it doesn't clip top/left
+                let newX = Math.random() * maxX + 20;
+                let newY = Math.random() * maxY + 20;
                 
                 btn.style.left = newX + 'px';
                 btn.style.top = newY + 'px';
@@ -443,7 +490,6 @@
                 }
             };
 
-            // Triggers on hover (PC) and touch start (Mobile) for hardcore difficulty
             btn.addEventListener('mouseenter', dodgeEvent);
             btn.addEventListener('touchstart', dodgeEvent, {passive: false});
             
@@ -460,9 +506,9 @@
         let firstCard, secondCard, matchedPairs = 0;
 
         function initMemoryGame() {
-            // Pick 9 random photos from the exact list
+            // Pick 8 random photos (to fit 4x4 grid perfectly)
             let shuffleList = [...exactPhotoNames].sort(() => 0.5 - Math.random());
-            let selectedPhotos = shuffleList.slice(0, 9);
+            let selectedPhotos = shuffleList.slice(0, 8);
             
             let cardsArray = [...selectedPhotos, ...selectedPhotos];
             cardsArray.sort(() => 0.5 - Math.random());
@@ -475,13 +521,21 @@
                 card.classList.add('card');
                 card.dataset.name = name; 
                 
-                card.innerHTML = `
-                    <div class="card-inner">
-                        <div class="card-front">?</div>
-                        <div class="card-back">
-                            ${generateImageHTML(name)}
-                        </div>
-                    </div>`;
+                let inner = document.createElement('div');
+                inner.className = 'card-inner';
+                
+                let front = document.createElement('div');
+                front.className = 'card-front';
+                front.innerText = '?';
+
+                let back = document.createElement('div');
+                back.className = 'card-back';
+                // Inject robust image
+                injectRobustImage(back, name);
+
+                inner.appendChild(front);
+                inner.appendChild(back);
+                card.appendChild(inner);
                 
                 card.addEventListener('click', flipCard);
                 board.appendChild(card);
@@ -510,7 +564,7 @@
             secondCard.removeEventListener('click', flipCard);
             resetBoard();
             matchedPairs++;
-            if(matchedPairs === 9) setTimeout(() => nextStage('stage-6'), 1000);
+            if(matchedPairs === 8) setTimeout(() => nextStage('stage-6'), 1000);
         }
 
         function unflipCards() {
@@ -531,18 +585,19 @@
             nextStage('stage-7');
         }
 
-        /* --- FIREWORKS --- */
+        /* --- MASSIVE FIREWORKS --- */
         function triggerFireworks() {
             document.body.classList.remove('playful-mode');
-            document.body.style.background = '#000'; // Dark for fireworks
+            document.body.style.background = '#000'; // Pure black for intense fireworks
             
             document.getElementById('cake-cut-box').style.display = 'none';
             document.getElementById('canvas-fireworks').style.display = 'block';
             startCanvasFireworks();
             
+            // Show poem after 4 seconds of fireworks
             setTimeout(() => {
                 document.getElementById('poem-section').style.display = 'block';
-            }, 1000);
+            }, 4000);
         }
 
         /* --- ENVELOPE LOGIC --- */
@@ -559,7 +614,7 @@
 
             if(envAttempts === 1) {
                 msg.innerText = "shayad m teri dob bhool gya, ek kam kr 1608 laga";
-                msg.style.color = "#ff6b81";
+                msg.style.color = "#e74c3c";
             } else {
                 if(pass === "1608") {
                     msg.innerText = "tujhe lga sach me main teri dob bhool gya 😎";
@@ -572,7 +627,7 @@
                     }, 1500);
                 } else {
                     msg.innerText = "Are bola na 1608 laga!";
-                    msg.style.color = "#ff6b81";
+                    msg.style.color = "#e74c3c";
                 }
             }
         }
@@ -592,10 +647,8 @@
                     wrapper.className = 'balloon-photo';
                     
                     let imgContainer = document.createElement('div');
-                    imgContainer.style.width = '100%';
-                    imgContainer.style.height = '200px';
-                    imgContainer.style.position = 'relative';
-                    imgContainer.innerHTML = generateImageHTML(name);
+                    imgContainer.className = 'img-container';
+                    injectRobustImage(imgContainer, name);
                     
                     let string = document.createElement('div');
                     string.className = 'balloon-string';
@@ -615,7 +668,10 @@
                     
                     wrapper.onclick = () => {
                         let img = wrapper.querySelector('img');
-                        if(img && img.style.display !== 'none') openLightbox(img.src);
+                        if(img) {
+                            document.getElementById('lightbox-img').src = img.src;
+                            document.getElementById('lightbox').style.display = 'flex';
+                        }
                     };
                     
                     gallery.appendChild(wrapper);
@@ -623,16 +679,11 @@
             });
         }
 
-        function openLightbox(src) {
-            document.getElementById('lightbox-img').src = src;
-            document.getElementById('lightbox').style.display = 'flex';
-        }
-
         function closeLightbox() {
             document.getElementById('lightbox').style.display = 'none';
         }
 
-        /* --- CANVAS FIREWORKS SCRIPT --- */
+        /* --- INTENSE CANVAS FIREWORKS SCRIPT (3-4 Seconds of Heavy Burst) --- */
         function startCanvasFireworks() {
             const fCanvas = document.getElementById('canvas-fireworks');
             const fCtx = fCanvas.getContext('2d');
@@ -640,27 +691,29 @@
             fCanvas.height = window.innerHeight;
 
             let fireworks = [];
-            const colors = ['#ff6b81', '#3498db', '#2ecc71', '#f1c40f', '#9b59b6'];
+            const colors = ['#ff6b81', '#3498db', '#2ecc71', '#f1c40f', '#9b59b6', '#ff9f43', '#00d2d3'];
 
             function FireworkParticle(x, y, color) {
                 this.x = x; this.y = y; this.color = color;
                 this.radius = Math.random() * 4 + 1;
                 let angle = Math.random() * Math.PI * 2;
-                let speed = Math.random() * 8 + 3;
+                let speed = Math.random() * 12 + 3; // Much faster
                 this.vx = Math.cos(angle) * speed;
                 this.vy = Math.sin(angle) * speed;
                 this.life = 1.0;
-                this.decay = Math.random() * 0.015 + 0.01;
+                this.decay = Math.random() * 0.015 + 0.005; // Longer life
             }
             FireworkParticle.prototype.update = function() {
                 this.x += this.vx; this.y += this.vy;
-                this.vy += 0.05; 
+                this.vy += 0.08; // gravity
                 this.life -= this.decay;
             }
             FireworkParticle.prototype.draw = function(ctx) {
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
                 ctx.fillStyle = `rgba(${hexToRgb(this.color)}, ${this.life})`;
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = this.color;
                 ctx.fill();
             }
 
@@ -669,18 +722,26 @@
                 return result ? `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}` : null;
             }
 
-            function createExplosion(x, y) {
+            function createExplosion() {
+                let x = Math.random() * fCanvas.width;
+                let y = Math.random() * fCanvas.height * 0.8;
                 let color = colors[Math.floor(Math.random() * colors.length)];
-                for(let i=0; i<100; i++) fireworks.push(new FireworkParticle(x, y, color));
+                // 250 particles per explosion for intense effect
+                for(let i=0; i<250; i++) fireworks.push(new FireworkParticle(x, y, color));
             }
 
-            setInterval(() => {
-                createExplosion(Math.random() * fCanvas.width, Math.random() * fCanvas.height * 0.7);
-            }, 600);
+            // Rapid fire: Explosion every 300ms
+            let fireworkInterval = setInterval(createExplosion, 300);
+
+            // Stop firing after exactly 4 seconds
+            setTimeout(() => {
+                clearInterval(fireworkInterval);
+            }, 4000);
 
             function animateFireworks() {
                 requestAnimationFrame(animateFireworks);
-                fCtx.clearRect(0, 0, fCanvas.width, fCanvas.height);
+                fCtx.fillStyle = 'rgba(0, 0, 0, 0.2)'; // Trailing effect
+                fCtx.fillRect(0, 0, fCanvas.width, fCanvas.height);
                 for(let i = fireworks.length - 1; i >= 0; i--) {
                     fireworks[i].update();
                     fireworks[i].draw(fCtx);
