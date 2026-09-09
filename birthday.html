@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Happy Birthday!</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Kalam:wght@400;700&family=Poppins:wght@400;600;800&family=Space+Mono:wght@400;700&display=swap');
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: background 1s ease;
+        }
+
+        /* --- THE PLAYFUL BACKGROUND (Activates after name) --- */
+        .playful-mode {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 20%, #a1c4fd 60%, #c2e9fb 100%);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .stage {
+            width: 100%;
+            max-width: 900px;
+            padding: 20px;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: 10;
+        }
+        .stage.active { display: flex; opacity: 1; }
+
+        /* --- STAGE 1: ENTRY SCREEN (Clean & Simple) --- */
+        .entry-box { text-align: center; background: #fff; padding: 50px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 500px;}
+        .entry-title { font-family: 'Fredoka One', cursive; font-size: 2.5rem; color: #333; margin-bottom: 10px; }
+        .entry-box input { width: 100%; border: 2px solid #ddd; padding: 15px; border-radius: 10px; font-size: 18px; font-family: 'Poppins', sans-serif; margin: 20px 0; outline: none; text-align: center; transition: 0.3s;}
+        .entry-box input:focus { border-color: #ff6b81; }
+        .btn-primary { background: #333; color: #fff; border: none; padding: 15px 30px; font-size: 18px; font-family: 'Poppins', sans-serif; font-weight: 600; border-radius: 10px; cursor: pointer; transition: 0.3s; width: 100%; box-shadow: 0 5px 15px rgba(0,0,0,0.1);}
+        .btn-primary:hover { background: #ff6b81; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(255,107,129,0.3);}
+
+        /* --- STAGE 2: DIALOGUE --- */
+        .dialogue-text { font-family: 'Fredoka One', cursive; font-size: 3rem; color: #fff; text-shadow: 2px 2px 0px #333, 4px 4px 0px rgba(0,0,0,0.1); text-align: center; line-height: 1.3;}
+        .dialogue-btn { margin-top: 40px; background: #fff; color: #333; box-shadow: 4px 4px 0px #333; border: 2px solid #333;}
+        .dialogue-btn:hover { background: #f1c40f; box-shadow: 6px 6px 0px #333; transform: translate(-2px, -2px); color: #333;}
+
+        /* --- STAGE 3: THE QUIZ UI (Perfectly matched to your screenshot) --- */
+        .quiz-container { background: #fff; border: 3px solid #111; padding: 50px 40px; width: 100%; max-width: 750px; position: relative; box-shadow: 10px 10px 0px rgba(0,0,0,0.05);}
+        .quiz-header { display: flex; justify-content: space-between; font-family: 'Space Mono', monospace; font-size: 12px; color: #777; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 30px;}
+        .quiz-question-text { font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 4.5rem; line-height: 1; color: #111; margin-bottom: 10px;}
+        .quiz-hint { font-family: 'Kalam', cursive; font-size: 1.5rem; color: #555; margin-bottom: 40px;}
+        .quiz-input-box { width: 100%; border: none; border-bottom: 3px solid #111; padding: 10px 0; font-size: 24px; font-family: 'Poppins', sans-serif; color: #111; outline: none; background: transparent; transition: 0.3s;}
+        .quiz-input-box:focus { border-bottom-color: #3498db; }
+        .quiz-input-box::placeholder { color: #aaa; font-weight: 400; }
+        .quiz-submit-btn { display: block; margin-left: auto; margin-top: 30px; background: #111; color: #fff; border: none; padding: 15px 30px; font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 18px; text-transform: uppercase; cursor: pointer; box-shadow: 6px 6px 0px #3498db; transition: 0.2s;}
+        .quiz-submit-btn:hover { transform: translate(-2px, -2px); box-shadow: 8px 8px 0px #3498db;}
+        .quiz-submit-btn:active { transform: translate(4px, 4px); box-shadow: 0px 0px 0px #3498db;}
+
+        /* --- EVALUATION SCREEN --- */
+        .eval-card { background: #fff; border: 3px solid #111; padding: 40px; width: 100%; max-width: 800px; box-shadow: 8px 8px 0px rgba(0,0,0,0.1);}
+        .eval-title { font-family: 'Fredoka One', cursive; font-size: 2.5rem; text-align: center; margin-bottom: 30px; border-bottom: 3px dashed #ddd; padding-bottom: 20px;}
+        .eval-row { border-bottom: 2px solid #eee; padding: 15px 0; display: flex; flex-direction: column;}
+        .eval-q { font-weight: 800; font-size: 1.2rem; color: #111; }
+        .eval-ans { font-size: 1rem; color: #555; margin-top: 5px; }
+        .eval-match { color: #2ecc71; font-weight: bold; }
+        .eval-miss { color: #e74c3c; font-weight: bold; }
+        .eval-final-msg { font-family: 'Fredoka One', cursive; font-size: 1.8rem; text-align: center; margin-top: 30px; line-height: 1.4;}
+
+        /* --- HARDCORE CATCH ME GAME --- */
+        #game-1-container { width: 100%; height: 500px; background: #fff; border: 3px solid #111; border-radius: 20px; position: relative; overflow: hidden; box-shadow: 8px 8px 0px rgba(0,0,0,0.1);}
+        #catch-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 15px 30px; background: #ff6b81; color: #fff; font-family: 'Fredoka One', cursive; font-size: 1.5rem; border: 3px solid #111; border-radius: 50px; cursor: pointer; box-shadow: 4px 4px 0px #111; transition: transform 0.1s; user-select: none; z-index: 20;}
+        .taunt-text { position: absolute; top: 30px; width: 100%; text-align: center; font-family: 'Kalam', cursive; font-size: 2rem; color: #555; pointer-events: none;}
+
+        /* --- MEMORY GAME --- */
+        .memory-header { text-align: center; margin-bottom: 20px; }
+        .memory-title { font-family: 'Fredoka One', cursive; font-size: 3rem; color: #fff; text-shadow: 2px 2px 0px #111;}
+        .memory-subtitle { font-family: 'Kalam', cursive; font-size: 1.5rem; color: #333; font-weight: bold;}
+        .memory-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; width: 100%; max-width: 800px; }
+        @media (max-width: 600px) { .memory-grid { grid-template-columns: repeat(4, 1fr); } }
+        .card { width: 100%; aspect-ratio: 3/4; perspective: 1000px; cursor: pointer; }
+        .card-inner { width: 100%; height: 100%; transition: transform 0.5s; transform-style: preserve-3d; position: relative; }
+        .card.flipped .card-inner { transform: rotateY(180deg); }
+        .card-front, .card-back { width: 100%; height: 100%; position: absolute; backface-visibility: hidden; border-radius: 10px; display: flex; align-items: center; justify-content: center; border: 3px solid #111;}
+        .card-front { background: #ffeb3b; font-family: 'Fredoka One', cursive; font-size: 3rem; color: #111; box-shadow: 4px 4px 0px rgba(0,0,0,0.1);}
+        .card-back { background: #fff; transform: rotateY(180deg); overflow: hidden;}
+        .card-back img { width: 100%; height: 100%; object-fit: cover; }
+        .img-fallback { background: #ff6b81; color: #fff; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-family: 'Poppins', sans-serif; font-weight: bold;}
+
+        /* --- FINAL QUESTION --- */
+        .final-q-container { background: #fff; border: 3px solid #111; padding: 40px; border-radius: 20px; width: 100%; max-width: 600px; box-shadow: 8px 8px 0px rgba(0,0,0,0.1); text-align: center;}
+        .final-q-container textarea { width: 100%; height: 150px; border: 2px dashed #777; padding: 20px; font-family: 'Kalam', cursive; font-size: 1.5rem; border-radius: 10px; resize: none; margin-top: 20px; outline:none; transition:0.3s;}
+        .final-q-container textarea:focus { border-color: #ff6b81; }
+
+        /* --- FIREWORKS & POEM --- */
+        #canvas-fireworks { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 1; display: none; }
+        .poem-box { position: relative; z-index: 10; text-align: center; background: rgba(255,255,255,0.9); border: 3px solid #111; border-radius: 20px; padding: 40px; max-width: 700px; box-shadow: 10px 10px 0px rgba(0,0,0,0.1); display: none;}
+        .poem-box h1 { font-family: 'Fredoka One', cursive; font-size: 4rem; color: #ff6b81; margin-bottom: 20px; text-shadow: 2px 2px 0px #111;}
+        .poem-text { font-family: 'Kalam', cursive; font-size: 1.8rem; line-height: 1.8; color: #333; font-weight: bold;}
+
+        /* --- CAKE BUTTON --- */
+        .cake-emoji { font-size: 10rem; cursor: pointer; transition: 0.3s; display: inline-block; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.2)); animation: bounce 2s infinite;}
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+
+        /* --- ENVELOPE --- */
+        .envelope-wrapper { position: relative; width: 300px; height: 200px; margin: 40px auto; cursor: pointer; perspective: 1000px; }
+        .env-body { position: absolute; width: 100%; height: 100%; background: #fdfbfb; border-radius: 10px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center; font-family: 'Space Mono', monospace; font-size: 24px; color: #111; font-weight: bold; border: 3px solid #111; z-index: 2;}
+        .env-flap { position: absolute; top: 0; left: 0; width: 100%; height: 60%; background: #eee; clip-path: polygon(0 0, 50% 100%, 100% 0); transform-origin: top; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); z-index: 3; border-top: 3px solid #111;}
+        .envelope-wrapper.open .env-flap { transform: rotateX(180deg); z-index: 1; }
+        
+        .pass-box { display: none; flex-direction: column; align-items: center; margin-top: 30px; }
+        .pass-box input { border: 3px solid #111; background: #fff; padding: 15px; border-radius: 10px; text-align: center; font-size: 24px; font-family: 'Poppins', sans-serif; font-weight: bold; margin-bottom: 20px; width: 250px; outline: none;}
+
+        /* --- BALLOONS --- */
+        #floating-gallery { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 50; overflow: hidden; display: none; }
+        .balloon-photo { position: absolute; bottom: -300px; width: 150px; display: flex; flex-direction: column; align-items: center; pointer-events: auto; cursor: pointer; transition: transform 0.3s; }
+        .balloon-photo img, .balloon-photo .img-fallback { width: 100%; height: 200px; object-fit: cover; border-radius: 20px; border: 5px solid #fff; box-shadow: 0 15px 30px rgba(0,0,0,0.2); }
+        .balloon-string { width: 3px; height: 150px; background: rgba(255,255,255,0.8); margin-top: -15px; z-index: -1; }
+        .balloon-photo:hover { transform: scale(1.15); z-index: 51; }
+        @keyframes floatBalloon {
+            0% { transform: translateY(0) rotate(var(--rot-start)); }
+            100% { transform: translateY(-130vh) rotate(var(--rot-end)); }
+        }
+
+        /* Lightbox */
+        .lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.95); display: none; justify-content: center; align-items: center; z-index: 200; backdrop-filter: blur(10px);}
+        .lightbox img { max-width: 90%; max-height: 90%; border-radius: 15px; border: 5px solid #111; box-shadow: 15px 15px 0px rgba(0,0,0,0.1);}
+        .close-lightbox { position: absolute; top: 30px; right: 40px; color: #111; font-size: 60px; cursor: pointer; font-family: 'Fredoka One'; transition: 0.3s;}
+        .close-lightbox:hover { color: #ff6b81; transform: scale(1.1);}
+
+    </style>
+</head>
+<body>
+
+    <!-- STAGE 1: ENTRY -->
+    <div id="stage-1" class="stage active">
+        <div class="entry-box">
+            <h1 class="entry-title">Top Secret</h1>
+            <p style="color:#666; font-size:14px; margin-bottom: 20px;">Identity verification required.</p>
+            <input type="text" id="name-input" placeholder="What's your name?" autocomplete="off">
+            <button class="btn-primary" onclick="checkName()">ENTER</button>
+            <p id="name-error" style="color:#e74c3c; font-weight: bold; margin-top: 15px; display: none;">ACCESS DENIED.</p>
+        </div>
+    </div>
+
+    <!-- STAGE 2: DIALOGUE -->
+    <div id="stage-2" class="stage">
+        <div class="dialogue-text" id="dialogue-text"></div>
+        <button class="btn-primary dialogue-btn" id="dialogue-btn" onclick="advanceDialogue()">NEXT >></button>
+    </div>
+
+    <!-- STAGE 3: THE NEW QUIZ FORM -->
+    <div id="stage-3" class="stage">
+        <div class="quiz-container">
+            <div class="quiz-header">
+                <span>How much do I know about her? // <span id="quiz-progress">01 of 05</span></span>
+                <span>BOSS DATABASE</span>
+            </div>
+            
+            <h1 class="quiz-question-text" id="quiz-q-title">Fav food?</h1>
+            <p class="quiz-hint" id="quiz-q-hint">No judgement. This is a serious investigation.</p>
+            
+            <input type="text" class="quiz-input-box" id="quiz-input" placeholder="type your answer..." autocomplete="off">
+            
+            <button class="quiz-submit-btn" onclick="nextQuestion()">Submit Answer</button>
+        </div>
+    </div>
+
+    <!-- EVALUATION RESULT -->
+    <div id="stage-eval" class="stage">
+        <div class="eval-card">
+            <h2 class="eval-title">Investigation Results</h2>
+            <div id="eval-list"></div>
+            <div class="eval-final-msg" id="eval-final-msg"></div>
+            <button class="btn-primary" style="margin-top: 30px; background: #3498db; box-shadow: 0 5px 15px rgba(52,152,219,0.3);" onclick="nextStage('stage-4');">PROCEED TO GAMES</button>
+        </div>
+    </div>
+
+    <!-- STAGE 4: HARDCORE CATCH ME GAME -->
+    <div id="stage-4" class="stage">
+        <h2 class="entry-title" style="color:#fff; text-shadow: 2px 2px 0 #111;">Protocol 1: Reflex Test</h2>
+        <div id="game-1-container">
+            <div class="taunt-text" id="taunt-msg">Just click the button. Easy.</div>
+            <button id="catch-btn">CATCH ME! 🎂</button>
+        </div>
+    </div>
+
+    <!-- GAME 2: MEMORY -->
+    <div id="stage-5" class="stage">
+        <div class="memory-header">
+            <h2 class="memory-title">Protocol 2: Memory Match</h2>
+            <p class="memory-subtitle">Apni yadon ko match karo.</p>
+        </div>
+        <div class="memory-grid" id="memory-board"></div>
+    </div>
+
+    <!-- FINAL QUESTION -->
+    <div id="stage-6" class="stage">
+        <div class="final-q-container">
+            <h2 class="entry-title">Final Question</h2>
+            <p class="memory-subtitle">2 things you love about yourself?</p>
+            <textarea placeholder="Write here..."></textarea>
+            <button class="btn-primary dialogue-btn" style="width:auto; margin-top: 20px;" onclick="triggerCakeStage();">SUBMIT & UNLOCK</button>
+        </div>
+    </div>
+
+    <!-- CAKE & POEM (Fireworks) -->
+    <div id="stage-7" class="stage">
+        <canvas id="canvas-fireworks"></canvas>
+        
+        <div id="cake-cut-box" style="text-align: center; z-index: 10;">
+            <div style="font-family:'Fredoka One'; font-size: 2rem; color:#fff; text-shadow: 2px 2px 0 #111; margin-bottom: 20px;">MAKE A WISH & CUT THE CAKE!</div>
+            <div class="cake-emoji" onclick="triggerFireworks()">🎂</div>
+        </div>
+
+        <div class="poem-box" id="poem-section">
+            <h1>HAPPY BIRTHDAY</h1>
+            <div class="poem-text">
+                I see you when I see a mountain, standing so strong,<br>
+                Your willpower like that, it keeps you going all along.<br><br>
+                I see you when I see the rain, falling with ease,<br>
+                You handle every storm, every task, with such peace.<br><br>
+                You are the one who doesn't follow the trend,<br>
+                The world follows you, my dear friend.
+            </div>
+            <button class="btn-primary dialogue-btn" style="margin-top: 30px;" onclick="nextStage('stage-8')">Boss ne kuch bheja hai...</button>
+        </div>
+    </div>
+
+    <!-- ENVELOPE & BALLOONS -->
+    <div id="stage-8" class="stage">
+        <h2 class="entry-title" style="color:#fff; text-shadow: 2px 2px 0 #111;">Secured Delivery</h2>
+        <div class="envelope-wrapper" id="envelope-obj" onclick="triggerEnvelope()">
+            <div class="env-body">CONFIDENTIAL</div>
+            <div class="env-flap"></div>
+        </div>
+        <div class="pass-box" id="pass-box">
+            <input type="password" id="env-pass" placeholder="Enter Passcode">
+            <button class="btn-primary" style="width:250px;" onclick="verifyEnvelope()">UNLOCK</button>
+            <p id="env-msg" style="margin-top:20px; font-family:'Fredoka One'; font-size:1.5rem; text-align:center;"></p>
+            <span style="font-family:'Poppins'; font-weight:bold; color: #333; text-decoration: underline; cursor: pointer; margin-top: 15px;" onclick="alert('teri dob hi hogi na')">Hint</span>
+        </div>
+    </div>
+
+    <div id="floating-gallery"></div>
+    
+    <div class="lightbox" id="lightbox">
+        <span class="close-lightbox" onclick="closeLightbox()">×</span>
+        <img id="lightbox-img" src="">
+    </div>
+
+    <script>
+        /* --- EXACT FILENAMES EXTRACTED FROM YOUR SCREENSHOT --- */
+        // Yeh list un files ke naam ki hai jo Windows copy-paste me banata hai.
+        const exactPhotoNames = [
+            '1', '1 (1)', '1 (2)', '1 (3)', '1 (4)', '1 (5)', '1 (6)', 
+            '1 (7)', '1 (8)', '1 (9)', '1 (10)', '1 (11)', '1 (12)', 
+            '1 (13)', '1 (14)', '1 (15)', '1 (16)', '1 (17)', '1 (18)', 
+            '1 (19)', '1 (20)', '1 (21)', '1 (22)'
+        ];
+
+        /* --- BULLETPROOF IMAGE LOADER FOR EXACT FILENAMES --- */
+        function generateImageHTML(name) {
+            // It tries .jpg first, then .jpeg, then .png.
+            return `<img src="Photos/${name}.jpg" 
+                    onerror="this.onerror=null; this.src='Photos/${name}.jpeg'; this.onerror=function(){this.onerror=null; this.src='Photos/${name}.png'; this.onerror=function(){this.style.display='none'; this.nextElementSibling.style.display='flex';}};">
+                    <div class="img-fallback" style="display:none;">PHOTO: ${name}</div>`;
+        }
+
+        /* --- NAVIGATION --- */
+        function nextStage(stageId) {
+            document.querySelectorAll('.stage').forEach(el => el.classList.remove('active'));
+            document.getElementById(stageId).classList.add('active');
+        }
+
+        function checkName() {
+            const val = document.getElementById('name-input').value.toLowerCase().trim();
+            if(val.includes('krishna')) {
+                // Instantly make background playful and colorful
+                document.body.classList.add('playful-mode');
+                nextStage('stage-2');
+                startDialogue();
+            } else {
+                document.getElementById('name-error').style.display = 'block';
+            }
+        }
+
+        /* --- DIALOGUE --- */
+        const lines = [
+            "ooh Ghotya... 😜",
+            "are sorry Kanudi 😅",
+            "ooh sorry aap to krishna mam ho... 👑",
+            "my mistake my mistake. 🙏",
+            "kese ho aap takleef to nhi huyi aane me? 😇",
+            "mam aapko is taraf jana hai 👇"
+        ];
+        let lineIdx = 0;
+        
+        function startDialogue() {
+            document.getElementById('dialogue-text').innerText = lines[0];
+        }
+
+        function advanceDialogue() {
+            lineIdx++;
+            if(lineIdx < lines.length) {
+                document.getElementById('dialogue-text').style.opacity = 0;
+                setTimeout(() => {
+                    document.getElementById('dialogue-text').innerText = lines[lineIdx];
+                    document.getElementById('dialogue-text').style.opacity = 1;
+                }, 300);
+                if(lineIdx === lines.length - 1) document.getElementById('dialogue-btn').innerText = "PROCEED";
+            } else {
+                nextStage('stage-3');
+                loadQuizData();
+            }
+        }
+
+        /* --- THE QUIZ LOGIC (Step by Step) --- */
+        const quizData = [
+            { q: "Fav food?", hint: "No judgement. This is a serious investigation." },
+            { q: "Fav person in life?", hint: "Think carefully..." },
+            { q: "1st love?", hint: "We all know the answer." },
+            { q: "Fav color?", hint: "Be specific." },
+            { q: "How are you feeling today?", hint: "Honestly." }
+        ];
+        let currentQ = 0;
+        let userAnswers = [];
+
+        function loadQuizData() {
+            document.getElementById('quiz-progress').innerText = `0${currentQ + 1} OF 05`;
+            document.getElementById('quiz-q-title').innerText = quizData[currentQ].q;
+            document.getElementById('quiz-q-hint').innerText = quizData[currentQ].hint;
+            document.getElementById('quiz-input').value = "";
+            document.getElementById('quiz-input').focus();
+        }
+
+        function nextQuestion() {
+            let input = document.getElementById('quiz-input').value;
+            userAnswers.push(input);
+            
+            if(currentQ < 4) {
+                currentQ++;
+                // Add a small animation effect
+                const container = document.querySelector('.quiz-container');
+                container.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    loadQuizData();
+                    container.style.transform = 'scale(1)';
+                }, 150);
+            } else {
+                evaluateQuiz();
+            }
+        }
+
+        function evaluateQuiz() {
+            const bossAnswers = ["Momos aur Mera sar", "Krishna Didi", "Samarveer", "Black", "Bas normal accha hi lag rhaa hai, jyada khass nhi"];
+            const checks = [
+                userAnswers[0].toLowerCase().includes('momo') || userAnswers[0].toLowerCase().includes('sar'),
+                userAnswers[1].toLowerCase().includes('didi'), 
+                userAnswers[2].toLowerCase().includes('samarveer'),
+                userAnswers[3].toLowerCase().includes('black') || userAnswers[3].toLowerCase().includes('kala'),
+                userAnswers[4].toLowerCase().includes('normal') || userAnswers[4].toLowerCase().includes('accha')
+            ];
+
+            let score = checks.filter(Boolean).length;
+            
+            nextStage('stage-eval');
+
+            let listHTML = '';
+            for(let i=0; i<5; i++) {
+                let statusText = checks[i] ? '<span class="eval-match">✓ MATCH</span>' : '<span class="eval-miss">✕ MISS</span>';
+                listHTML += `
+                <div class="eval-row">
+                    <div style="display:flex; justify-content:space-between;">
+                        <span class="eval-q">${quizData[i].q}</span>
+                        ${statusText}
+                    </div>
+                    <div class="eval-ans"><b>Boss:</b> ${bossAnswers[i]} <br> <b>You:</b> ${userAnswers[i] || '<i>blank</i>'}</div>
+                </div>`;
+            }
+            document.getElementById('eval-list').innerHTML = listHTML;
+
+            let finalMsg = document.getElementById('eval-final-msg');
+            if(score >= 4) {
+                finalMsg.innerHTML = `Ye dekh main kitna janta hu tujhe 😎😶‍🌫️🙄😋😃😀🤔 yeah yeah yeah... kesa lga ye`;
+                finalMsg.style.color = '#2ecc71';
+            } else {
+                finalMsg.innerHTML = `Maine janbujhkar galat likha, agar aaj k din hi tujhe shi nhi hone dunga to kya mtlb tere bd day ka 😎😶‍🌫️🙄😋😃😀🤔 yeah yeah yeah... kesa lga ye`;
+                finalMsg.style.color = '#e74c3c';
+            }
+            setupCatchGame();
+        }
+
+        /* --- HARDCORE CATCH ME GAME (9 Dodges, Very Fast) --- */
+        let catchDodges = 0;
+        const maxDodges = 9; 
+        const taunts = [
+            "Are itna slow?", "Haha missed!", "Try again! 😂", 
+            "Too slow for the boss!", "Almost got it... nope!", 
+            "Focus Krishna, focus!", "Ouch, your finger slipped?", 
+            "Okay one last time...", "Just kidding, one more! 😜"
+        ];
+
+        function setupCatchGame() {
+            const btn = document.getElementById('catch-btn');
+            const container = document.getElementById('game-1-container');
+            
+            const dodgeEvent = (e) => {
+                if(catchDodges >= maxDodges) return;
+                e.preventDefault(); 
+                
+                let rect = container.getBoundingClientRect();
+                let maxX = rect.width - btn.offsetWidth - 20;
+                let maxY = rect.height - btn.offsetHeight - 20;
+                let newX = Math.random() * maxX + 10;
+                let newY = Math.random() * maxY + 10;
+                
+                btn.style.left = newX + 'px';
+                btn.style.top = newY + 'px';
+                
+                document.getElementById('taunt-msg').innerText = taunts[catchDodges] || "Haha!";
+                catchDodges++;
+
+                if(catchDodges >= maxDodges) {
+                    document.getElementById('taunt-msg').innerText = "Okay fine, I surrender. Click it! 🙄";
+                    btn.style.background = "#2ecc71";
+                    btn.innerText = "PROCEED";
+                }
+            };
+
+            // Triggers on hover (PC) and touch start (Mobile) for hardcore difficulty
+            btn.addEventListener('mouseenter', dodgeEvent);
+            btn.addEventListener('touchstart', dodgeEvent, {passive: false});
+            
+            btn.addEventListener('click', () => {
+                if(catchDodges >= maxDodges) {
+                    nextStage('stage-5');
+                    initMemoryGame();
+                }
+            });
+        }
+
+        /* --- MEMORY GAME --- */
+        let hasFlippedCard = false, lockBoard = false;
+        let firstCard, secondCard, matchedPairs = 0;
+
+        function initMemoryGame() {
+            // Pick 9 random photos from the exact list
+            let shuffleList = [...exactPhotoNames].sort(() => 0.5 - Math.random());
+            let selectedPhotos = shuffleList.slice(0, 9);
+            
+            let cardsArray = [...selectedPhotos, ...selectedPhotos];
+            cardsArray.sort(() => 0.5 - Math.random());
+
+            const board = document.getElementById('memory-board');
+            board.innerHTML = ''; 
+
+            cardsArray.forEach((name) => {
+                const card = document.createElement('div');
+                card.classList.add('card');
+                card.dataset.name = name; 
+                
+                card.innerHTML = `
+                    <div class="card-inner">
+                        <div class="card-front">?</div>
+                        <div class="card-back">
+                            ${generateImageHTML(name)}
+                        </div>
+                    </div>`;
+                
+                card.addEventListener('click', flipCard);
+                board.appendChild(card);
+            });
+        }
+
+        function flipCard() {
+            if (lockBoard || this === firstCard) return;
+            this.classList.add('flipped');
+            if (!hasFlippedCard) {
+                hasFlippedCard = true;
+                firstCard = this;
+                return;
+            }
+            secondCard = this;
+            checkForMatch();
+        }
+
+        function checkForMatch() {
+            let isMatch = firstCard.dataset.name === secondCard.dataset.name;
+            isMatch ? disableCards() : unflipCards();
+        }
+
+        function disableCards() {
+            firstCard.removeEventListener('click', flipCard);
+            secondCard.removeEventListener('click', flipCard);
+            resetBoard();
+            matchedPairs++;
+            if(matchedPairs === 9) setTimeout(() => nextStage('stage-6'), 1000);
+        }
+
+        function unflipCards() {
+            lockBoard = true;
+            setTimeout(() => {
+                firstCard.classList.remove('flipped');
+                secondCard.classList.remove('flipped');
+                resetBoard();
+            }, 1000);
+        }
+
+        function resetBoard() {
+            [hasFlippedCard, lockBoard] = [false, false];
+            [firstCard, secondCard] = [null, null];
+        }
+
+        function triggerCakeStage() {
+            nextStage('stage-7');
+        }
+
+        /* --- FIREWORKS --- */
+        function triggerFireworks() {
+            document.body.classList.remove('playful-mode');
+            document.body.style.background = '#000'; // Dark for fireworks
+            
+            document.getElementById('cake-cut-box').style.display = 'none';
+            document.getElementById('canvas-fireworks').style.display = 'block';
+            startCanvasFireworks();
+            
+            setTimeout(() => {
+                document.getElementById('poem-section').style.display = 'block';
+            }, 1000);
+        }
+
+        /* --- ENVELOPE LOGIC --- */
+        let envAttempts = 0;
+        
+        function triggerEnvelope() {
+            document.getElementById('pass-box').style.display = 'flex';
+        }
+
+        function verifyEnvelope() {
+            const pass = document.getElementById('env-pass').value;
+            const msg = document.getElementById('env-msg');
+            envAttempts++;
+
+            if(envAttempts === 1) {
+                msg.innerText = "shayad m teri dob bhool gya, ek kam kr 1608 laga";
+                msg.style.color = "#ff6b81";
+            } else {
+                if(pass === "1608") {
+                    msg.innerText = "tujhe lga sach me main teri dob bhool gya 😎";
+                    msg.style.color = "#2ecc71";
+                    document.getElementById('envelope-obj').classList.add('open');
+                    
+                    setTimeout(() => {
+                        document.getElementById('stage-8').style.display = 'none';
+                        launchBalloonGallery();
+                    }, 1500);
+                } else {
+                    msg.innerText = "Are bola na 1608 laga!";
+                    msg.style.color = "#ff6b81";
+                }
+            }
+        }
+
+        /* --- BALLOON PHOTOS GALLERY --- */
+        function launchBalloonGallery() {
+            document.body.style.background = ''; // Remove dark
+            document.body.classList.add('playful-mode'); // Return to playful theme
+            document.getElementById('canvas-fireworks').style.display = 'none'; 
+
+            const gallery = document.getElementById('floating-gallery');
+            gallery.style.display = 'block';
+
+            exactPhotoNames.forEach((name, i) => {
+                setTimeout(() => {
+                    let wrapper = document.createElement('div');
+                    wrapper.className = 'balloon-photo';
+                    
+                    let imgContainer = document.createElement('div');
+                    imgContainer.style.width = '100%';
+                    imgContainer.style.height = '200px';
+                    imgContainer.style.position = 'relative';
+                    imgContainer.innerHTML = generateImageHTML(name);
+                    
+                    let string = document.createElement('div');
+                    string.className = 'balloon-string';
+
+                    wrapper.appendChild(imgContainer);
+                    wrapper.appendChild(string);
+                    
+                    let left = Math.random() * 80 + 10; 
+                    let duration = Math.random() * 8 + 12; 
+                    let rotStart = (Math.random() * 20 - 10) + 'deg';
+                    let rotEnd = (Math.random() * 60 - 30) + 'deg';
+                    
+                    wrapper.style.left = left + '%';
+                    wrapper.style.setProperty('--rot-start', rotStart);
+                    wrapper.style.setProperty('--rot-end', rotEnd);
+                    wrapper.style.animation = `floatBalloon ${duration}s linear infinite`;
+                    
+                    wrapper.onclick = () => {
+                        let img = wrapper.querySelector('img');
+                        if(img && img.style.display !== 'none') openLightbox(img.src);
+                    };
+                    
+                    gallery.appendChild(wrapper);
+                }, i * 700); 
+            });
+        }
+
+        function openLightbox(src) {
+            document.getElementById('lightbox-img').src = src;
+            document.getElementById('lightbox').style.display = 'flex';
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').style.display = 'none';
+        }
+
+        /* --- CANVAS FIREWORKS SCRIPT --- */
+        function startCanvasFireworks() {
+            const fCanvas = document.getElementById('canvas-fireworks');
+            const fCtx = fCanvas.getContext('2d');
+            fCanvas.width = window.innerWidth;
+            fCanvas.height = window.innerHeight;
+
+            let fireworks = [];
+            const colors = ['#ff6b81', '#3498db', '#2ecc71', '#f1c40f', '#9b59b6'];
+
+            function FireworkParticle(x, y, color) {
+                this.x = x; this.y = y; this.color = color;
+                this.radius = Math.random() * 4 + 1;
+                let angle = Math.random() * Math.PI * 2;
+                let speed = Math.random() * 8 + 3;
+                this.vx = Math.cos(angle) * speed;
+                this.vy = Math.sin(angle) * speed;
+                this.life = 1.0;
+                this.decay = Math.random() * 0.015 + 0.01;
+            }
+            FireworkParticle.prototype.update = function() {
+                this.x += this.vx; this.y += this.vy;
+                this.vy += 0.05; 
+                this.life -= this.decay;
+            }
+            FireworkParticle.prototype.draw = function(ctx) {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(${hexToRgb(this.color)}, ${this.life})`;
+                ctx.fill();
+            }
+
+            function hexToRgb(hex) {
+                let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+                return result ? `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}` : null;
+            }
+
+            function createExplosion(x, y) {
+                let color = colors[Math.floor(Math.random() * colors.length)];
+                for(let i=0; i<100; i++) fireworks.push(new FireworkParticle(x, y, color));
+            }
+
+            setInterval(() => {
+                createExplosion(Math.random() * fCanvas.width, Math.random() * fCanvas.height * 0.7);
+            }, 600);
+
+            function animateFireworks() {
+                requestAnimationFrame(animateFireworks);
+                fCtx.clearRect(0, 0, fCanvas.width, fCanvas.height);
+                for(let i = fireworks.length - 1; i >= 0; i--) {
+                    fireworks[i].update();
+                    fireworks[i].draw(fCtx);
+                    if(fireworks[i].life <= 0) fireworks.splice(i, 1);
+                }
+            }
+            animateFireworks();
+        }
+    </script>
+</body>
+</html>
